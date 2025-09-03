@@ -1,0 +1,191 @@
+/* Filter section styles */
+.filter-section {
+  background: #FFFFFF; /* ADP White */
+  border: 1px solid #F2F3F3; /* ADP Light Gray */
+  border-radius: 5px; /* ADP Standard Border Radius */
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  overflow: hidden;
+}
+
+/* Filter header - always visible */
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.filter-header:hover {
+  background-color: #FFE5E7; /* ADP Light Pink */
+}
+
+.filter-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #010035; /* ADP Midnight */
+}
+
+/* Filter arrow */
+.filter-arrow {
+  font-size: 1.2rem;
+  color: #54565A; /* ADP Dark Gray */
+  transition: transform 0.2s ease;
+  user-select: none;
+}
+
+.filter-arrow.expanded {
+  transform: rotate(180deg);
+}
+
+/* Filter content - collapsible */
+.filter-content {
+  padding: 0 1.5rem 1rem 1.5rem;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.filter-section h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #010035; /* ADP Midnight */
+}
+
+/* Simple Filter */
+.simple-filter {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #F2F3F3; /* ADP Light Gray */
+}
+
+.filter-form {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-select,
+.filter-input {
+  padding: 0.75rem;
+  border: 1px solid #F2F3F3; /* ADP Light Gray */
+  border-radius: 5px; /* ADP Standard Border Radius */
+  background: #FFFFFF; /* ADP White */
+  color: #010035; /* ADP Midnight */
+  font-size: 1rem;
+  min-width: 200px;
+}
+
+.filter-select:focus,
+.filter-input:focus {
+  outline: none;
+  border-color: #D0271D; /* ADP Red */
+  box-shadow: 0 0 0 2px rgba(208, 39, 29, 0.1);
+}
+
+.filter-select:disabled,
+.filter-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Advanced Filter */
+.advanced-filter {
+  margin-bottom: 1rem;
+}
+
+.advanced-filter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid transparent;
+  border-radius: 5px; /* ADP Standard Border Radius */
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 120px;
+}
+
+.btn.primary {
+  background: #D0271D; /* ADP Red */
+  color: #FFFFFF; /* ADP White */
+}
+
+.btn.primary:hover:not(:disabled) {
+  background: #B01F17; /* ADP Red Hover */
+}
+
+.btn.secondary {
+  background: #F2F3F3; /* ADP Light Gray */
+  color: #010035; /* ADP Midnight */
+  border: 1px solid #54565A; /* ADP Dark Gray */
+}
+
+.btn.secondary:hover:not(:disabled) {
+  background: #FFE5E7; /* ADP Light Pink */
+  border-color: #D0271D; /* ADP Red */
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.clear-btn {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .filter-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filter-select,
+  .filter-input {
+    min-width: unset;
+    width: 100%;
+  }
+  
+  .filter-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-section {
+    padding: 1rem;
+  }
+}

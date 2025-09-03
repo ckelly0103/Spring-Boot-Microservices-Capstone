@@ -1,0 +1,558 @@
+/* ADP Design System CSS - Based on FY25 Brand Guidelines */
+
+/* ========================================
+   1. CSS Custom Properties (Variables)
+======================================== */
+:root {
+  /* ADP Brand Colors */
+  --adp-red: #D0271D;
+  --adp-red-hover: #B01F17;
+  --adp-midnight: #010035;
+  --adp-dgray: #54565A;
+  --adp-lgray: #F2F3F3;
+  --adp-lpink: #FFE5E7;
+  --adp-white: #FFFFFF;
+  
+  /* Font Family - TaubSans fallback to system fonts */
+  --font-family-primary: 'TaubSans', 'Inter', 'Segoe UI', Roboto, 'SF Pro Text', -apple-system, BlinkMacSystemFont, system-ui, 'Helvetica Neue', Arial, sans-serif;
+  
+  /* Typography Scale */
+  --size-12: 12px;
+  --size-14: 14px;
+  --size-16: 16px;
+  --size-18: 18px;
+  --size-20: 20px;
+  --size-24: 24px;
+  --size-28: 28px;
+  --size-32: 32px;
+  --size-36: 36px;
+  --size-40: 40px;
+  --size-48: 48px;
+  --size-56: 56px;
+  --size-64: 64px;
+  --size-72: 72px;
+  --size-80: 80px;
+  --size-96: 96px;
+  
+  /* Spacing */
+  --spacing-5: 5px;
+  --spacing-10: 10px;
+  --spacing-15: 15px;
+  --spacing-20: 20px;
+  --spacing-30: 30px;
+  
+  /* Border Radius */
+  --border-radius: 5px;
+  
+  /* Transitions */
+  --transition-default: all 0.2s ease;
+}
+
+/* ========================================
+   2. Font Family Classes
+======================================== */
+.TaubSans-Regular {
+  font-family: var(--font-family-primary);
+  font-weight: 400;
+  font-style: normal;
+}
+
+.TaubSans-Medium {
+  font-family: var(--font-family-primary);
+  font-weight: 500;
+  font-style: normal;
+}
+
+.TaubSans-Bold {
+  font-family: var(--font-family-primary);
+  font-weight: 700;
+  font-style: normal;
+}
+
+.TaubSans-RegularItalic {
+  font-family: var(--font-family-primary);
+  font-weight: 400;
+  font-style: italic;
+}
+
+.TaubSans-MediumItalic {
+  font-family: var(--font-family-primary);
+  font-weight: 500;
+  font-style: italic;
+}
+
+.TaubSans-BoldItalic {
+  font-family: var(--font-family-primary);
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* ========================================
+   3. ADP Color Utility Classes
+======================================== */
+
+/* Text Colors */
+.adp-dgray { color: var(--adp-dgray); }
+.adp-lgray { color: var(--adp-lgray); }
+.adp-lpink { color: var(--adp-lpink); }
+.adp-midnight { color: var(--adp-midnight); }
+.adp-red { color: var(--adp-red); }
+.adp-red-hover { color: var(--adp-red-hover); }
+.adp-white { color: var(--adp-white); }
+
+/* Background Colors */
+.adp-bg-dgray { background-color: var(--adp-dgray); }
+.adp-bg-lgray { background-color: var(--adp-lgray); }
+.adp-bg-lpink { background-color: var(--adp-lpink); }
+.adp-bg-midnight { background-color: var(--adp-midnight); }
+.adp-bg-red { background-color: var(--adp-red); }
+.adp-bg-red-hover { background-color: var(--adp-red-hover); }
+.adp-bg-white { background-color: var(--adp-white); }
+
+/* ========================================
+   4. Typography Classes
+======================================== */
+
+/* Text Sizes */
+.size12 { font-size: var(--size-12); }
+.size14 { font-size: var(--size-14); }
+.size16 { font-size: var(--size-16); }
+.size18 { font-size: var(--size-18); }
+.size20 { font-size: var(--size-20); }
+.size24 { font-size: var(--size-24); }
+.size28 { font-size: var(--size-28); }
+.size32 { font-size: var(--size-32); }
+.size36 { font-size: var(--size-36); }
+.size40 { font-size: var(--size-40); }
+.size48 { font-size: var(--size-48); }
+.size56 { font-size: var(--size-56); }
+.size64 { font-size: var(--size-64); }
+.size72 { font-size: var(--size-72); }
+.size80 { font-size: var(--size-80); }
+.size96 { font-size: var(--size-96); }
+
+/* Text Alignment */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+
+/* Text Transformations */
+.uppercase { text-transform: uppercase; }
+.lowercase { text-transform: lowercase; }
+.capitalize { text-transform: capitalize; }
+
+/* Text Utilities */
+.no-wrap { white-space: nowrap; }
+.truncate { 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ========================================
+   5. Button Classes
+======================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius);
+  font-family: var(--font-family-primary);
+  font-size: var(--size-16);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--transition-default);
+  background-color: var(--adp-red);
+  color: var(--adp-white);
+}
+
+.btn:hover:not(:disabled) {
+  background-color: var(--adp-red-hover);
+}
+
+.btn:focus:not(:disabled) {
+  outline: 2px solid var(--adp-red);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn2 {
+  background-color: var(--adp-midnight);
+  color: var(--adp-white);
+}
+
+.btn2:hover:not(:disabled) {
+  background-color: var(--adp-dgray);
+}
+
+.btn-outline {
+  background-color: var(--adp-white);
+  border-color: var(--adp-red);
+  color: var(--adp-red);
+}
+
+.btn-outline:hover:not(:disabled) {
+  background-color: var(--adp-lpink);
+  border-color: var(--adp-red-hover);
+  color: var(--adp-red-hover);
+}
+
+.btn-primary {
+  background-color: var(--adp-red);
+  color: var(--adp-white);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--adp-red-hover);
+}
+
+.btn-secondary {
+  background-color: var(--adp-dgray);
+  color: var(--adp-white);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--adp-midnight);
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--adp-red);
+  text-decoration: underline;
+  padding: 0;
+}
+
+.btn-link:hover:not(:disabled) {
+  color: var(--adp-red-hover);
+}
+
+/* ========================================
+   6. Link Classes
+======================================== */
+a, .link {
+  color: var(--adp-red);
+  text-decoration: none;
+  transition: var(--transition-default);
+}
+
+a:hover, .link:hover {
+  color: var(--adp-red-hover);
+  text-decoration: underline;
+}
+
+.link-arrow::after {
+  content: ' →';
+  margin-left: 0.25rem;
+}
+
+.link-white {
+  color: var(--adp-white);
+}
+
+.link-white:hover {
+  text-decoration: underline;
+}
+
+.link-muted {
+  color: var(--adp-dgray);
+}
+
+.link-muted:hover {
+  color: var(--adp-midnight);
+}
+
+.link-bold {
+  font-weight: 700;
+}
+
+/* ========================================
+   7. Card Classes
+======================================== */
+.card {
+  background-color: var(--adp-white);
+  border: 1px solid var(--adp-lgray);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition-default);
+}
+
+.card-body {
+  flex: 1;
+}
+
+.card-footer {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--adp-lgray);
+}
+
+.card-img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+}
+
+.card-promo {
+  background-color: var(--adp-lpink);
+  border-color: var(--adp-red);
+}
+
+.card-label {
+  background-color: var(--adp-midnight);
+  color: var(--adp-white);
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  font-size: var(--size-14);
+  font-weight: 600;
+  text-transform: uppercase;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.card-topic {
+  background-color: var(--adp-lpink);
+  color: var(--adp-midnight);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius);
+  font-size: var(--size-12);
+  font-weight: 600;
+  text-transform: uppercase;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+/* ========================================
+   8. Layout Classes
+======================================== */
+
+/* Container Classes */
+.container-fluid {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+}
+
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Column Classes - Bootstrap-inspired grid */
+[class*="col-"] {
+  position: relative;
+  width: 100%;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.col-xs-12 { flex: 0 0 100%; max-width: 100%; }
+.col-sm-6 { flex: 0 0 50%; max-width: 50%; }
+.col-md-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
+.col-lg-3 { flex: 0 0 25%; max-width: 25%; }
+
+/* Responsive Breakpoints */
+@media (max-width: 575.98px) {
+  .col-sm-6 { flex: 0 0 100%; max-width: 100%; }
+}
+
+@media (max-width: 767.98px) {
+  .col-md-4 { flex: 0 0 100%; max-width: 100%; }
+}
+
+@media (max-width: 991.98px) {
+  .col-lg-3 { flex: 0 0 100%; max-width: 100%; }
+}
+
+/* ========================================
+   9. Spacing Utility Classes
+======================================== */
+
+/* Padding */
+.p-5 { padding: var(--spacing-5); }
+.p-10 { padding: var(--spacing-10); }
+.p-15 { padding: var(--spacing-15); }
+.p-20 { padding: var(--spacing-20); }
+.p-30 { padding: var(--spacing-30); }
+
+.pt-5 { padding-top: var(--spacing-5); }
+.pt-10 { padding-top: var(--spacing-10); }
+.pt-15 { padding-top: var(--spacing-15); }
+.pt-20 { padding-top: var(--spacing-20); }
+.pt-30 { padding-top: var(--spacing-30); }
+
+.pr-5 { padding-right: var(--spacing-5); }
+.pr-10 { padding-right: var(--spacing-10); }
+.pr-15 { padding-right: var(--spacing-15); }
+.pr-20 { padding-right: var(--spacing-20); }
+.pr-30 { padding-right: var(--spacing-30); }
+
+.pb-5 { padding-bottom: var(--spacing-5); }
+.pb-10 { padding-bottom: var(--spacing-10); }
+.pb-15 { padding-bottom: var(--spacing-15); }
+.pb-20 { padding-bottom: var(--spacing-20); }
+.pb-30 { padding-bottom: var(--spacing-30); }
+
+.pl-5 { padding-left: var(--spacing-5); }
+.pl-10 { padding-left: var(--spacing-10); }
+.pl-15 { padding-left: var(--spacing-15); }
+.pl-20 { padding-left: var(--spacing-20); }
+.pl-30 { padding-left: var(--spacing-30); }
+
+/* Margin */
+.m-5 { margin: var(--spacing-5); }
+.m-10 { margin: var(--spacing-10); }
+.m-15 { margin: var(--spacing-15); }
+.m-20 { margin: var(--spacing-20); }
+.m-30 { margin: var(--spacing-30); }
+
+.mt-5 { margin-top: var(--spacing-5); }
+.mt-10 { margin-top: var(--spacing-10); }
+.mt-15 { margin-top: var(--spacing-15); }
+.mt-20 { margin-top: var(--spacing-20); }
+.mt-30 { margin-top: var(--spacing-30); }
+
+.mr-5 { margin-right: var(--spacing-5); }
+.mr-10 { margin-right: var(--spacing-10); }
+.mr-15 { margin-right: var(--spacing-15); }
+.mr-20 { margin-right: var(--spacing-20); }
+.mr-30 { margin-right: var(--spacing-30); }
+
+.mb-5 { margin-bottom: var(--spacing-5); }
+.mb-10 { margin-bottom: var(--spacing-10); }
+.mb-15 { margin-bottom: var(--spacing-15); }
+.mb-20 { margin-bottom: var(--spacing-20); }
+.mb-30 { margin-bottom: var(--spacing-30); }
+
+.ml-5 { margin-left: var(--spacing-5); }
+.ml-10 { margin-left: var(--spacing-10); }
+.ml-15 { margin-left: var(--spacing-15); }
+.ml-20 { margin-left: var(--spacing-20); }
+.ml-30 { margin-left: var(--spacing-30); }
+
+/* ========================================
+   10. Form Elements
+======================================== */
+input, textarea, select {
+  font-family: var(--font-family-primary);
+  font-size: var(--size-16);
+  color: var(--adp-midnight);
+  border: 1px solid var(--adp-lgray);
+  border-radius: var(--border-radius);
+  padding: 0.75rem;
+  transition: var(--transition-default);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--adp-red);
+  box-shadow: 0 0 0 2px rgba(208, 39, 29, 0.1);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--adp-dgray);
+}
+
+/* ========================================
+   11. Responsive Utility Classes
+======================================== */
+.visible-xs-flex {
+  display: none;
+}
+
+.hidden-xs {
+  display: block;
+}
+
+.no-gutter {
+  padding: 0;
+  margin: 0;
+}
+
+@media (max-width: 575.98px) {
+  .visible-xs-flex {
+    display: flex;
+  }
+  
+  .hidden-xs {
+    display: none;
+  }
+}
+
+/* ========================================
+   12. Global Navigation Overrides
+======================================== */
+.global-nav {
+  background-color: var(--adp-red);
+  color: var(--adp-white);
+}
+
+.global-nav .nav-menu {
+  background-color: var(--adp-red);
+}
+
+.global-nav .nav-main {
+  background-color: var(--adp-red);
+}
+
+.global-nav .nav-menu .btn {
+  background-color: var(--adp-white);
+  color: var(--adp-red);
+}
+
+.global-nav .nav-menu .btn:hover {
+  background-color: var(--adp-lpink);
+  color: var(--adp-red);
+}
+
+/* ========================================
+   13. Accordion Styles
+======================================== */
+.accordion dt::before {
+  content: '+';
+  color: var(--adp-red);
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.accordion dt.open::before {
+  content: '-';
+}
+
+.accordion div.plus::after {
+  content: '+';
+  color: var(--adp-red);
+}
+
+.accordion div.plus.minus::after {
+  content: '-';
+}
+
+/* ========================================
+   14. Comparison Package Styles
+======================================== */
+.compare-pkgs .pkg-col {
+  background-color: var(--adp-lgray);
+  border: 1px solid var(--adp-dgray);
+  margin-right: var(--spacing-20);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+}

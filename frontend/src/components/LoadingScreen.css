@@ -1,0 +1,11 @@
+/* Simplified loading styles */
+.loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  margin-top: 2rem;
+  font-size: 1.25rem;
+  color: #54565A; /* ADP Dark Gray */
+}

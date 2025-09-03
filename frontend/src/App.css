@@ -1,0 +1,51 @@
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'TaubSans', 'Inter', 'Segoe UI', Roboto, 'SF Pro Text', -apple-system,
+    BlinkMacSystemFont, system-ui, 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: block;
+  background-color: #F2F3F3; /* ADP Light Gray */
+  color: #010035; /* ADP Midnight */
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+#root {
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* App layout */
+.app {
+  width: 100%;
+  max-width: 1200px;
+  padding: 2rem;
+  margin: 0 auto;
+}
+
+.app-title {
+  text-align: center;
+  margin: 0 0 2.5rem 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #010035; /* ADP Midnight */
+  letter-spacing: -0.02em;
+}
+
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .app {
+    padding: 1rem;
+  }
+}
