@@ -26,7 +26,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         
         // Skip JWT validation for root endpoint and customer endpoints (for testing)
         String requestPath = request.getServletPath();
-        if ("/".equals(requestPath) || requestPath.startsWith("/customers")) {
+        if ("/".equals(requestPath) || requestPath.startsWith("/customers") || requestPath.startsWith("/api")) {
             filterChain.doFilter(request, response);
             return;
         }
