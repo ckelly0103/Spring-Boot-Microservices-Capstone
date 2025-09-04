@@ -12,7 +12,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping("/customers")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -49,7 +49,7 @@ public class CustomerController {
                             .buildAndExpand(newCustomer.getId())
                             .toUri();
 
-            return ResponseEntity.created(location).build();
+            return ResponseEntity.created(location).body(newCustomer);  // Return the created customer in the body
         }
     }
 

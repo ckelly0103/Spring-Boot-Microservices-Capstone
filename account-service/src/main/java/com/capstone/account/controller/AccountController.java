@@ -21,23 +21,16 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
     
-    /**
-     * Root endpoint - confirms service is running
-     * GET /account/
-     */
+
     @GetMapping("/")
     public ResponseEntity<Map<String, String>> serviceStatus() {
         Map<String, String> response = new HashMap<>();
         response.put("status", "Account Service is up and running");
         response.put("service", "Account Service");
-        response.put("version", "1.0.0");
         return ResponseEntity.ok(response);
     }
     
-    /**
-     * Token endpoint - authenticate customer and return JWT
-     * POST /account/token
-     */
+
     @PostMapping("/token")
     public ResponseEntity<?> authenticateCustomer(@Valid @RequestBody LoginRequest loginRequest) {
         try {
@@ -51,10 +44,7 @@ public class AccountController {
         }
     }
     
-    /**
-     * Register endpoint - register new customer
-     * POST /account/register
-     */
+
     @PostMapping("/register")
     public ResponseEntity<?> registerCustomer(@Valid @RequestBody CustomerRegistrationRequest registrationRequest) {
         try {
@@ -75,9 +65,7 @@ public class AccountController {
         }
     }
     
-    /**
-     * Exception handler for validation errors
-     */
+
     @ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(
             org.springframework.web.bind.MethodArgumentNotValidException ex) {
