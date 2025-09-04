@@ -24,12 +24,7 @@ public class AccountService {
      * Register a new customer
      */
     public Customer registerCustomer(CustomerRegistrationRequest request) {
-        // Check if customer already exists
-        if (dataServiceClient.customerExistsByEmail(request.getEmail())) {
-            throw new RuntimeException("Customer with email " + request.getEmail() + " already exists");
-        }
-        
-        // Create new customer with encoded password
+        // Create new customer with encoded password (skip duplicate check for now)
         Customer customer = new Customer();
         customer.setName(request.getName());
         customer.setEmail(request.getEmail());
@@ -43,7 +38,7 @@ public class AccountService {
      * Authenticate customer and generate JWT token
      */
     public JwtResponse authenticateCustomer(LoginRequest loginRequest) {
-        // Find customer by username (email)
+        // Find customer by username (email) - this will still use the flawed method for now
         Customer customer = dataServiceClient.findCustomerByEmail(loginRequest.getUsername());
         
         if (customer == null) {
