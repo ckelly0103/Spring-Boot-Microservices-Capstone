@@ -49,7 +49,7 @@ public class CustomerController {
                             .buildAndExpand(newCustomer.getId())
                             .toUri();
 
-            return ResponseEntity.created(location).build();
+            return ResponseEntity.created(location).body(newCustomer);  // Return the created customer in the body
         }
     }
 
