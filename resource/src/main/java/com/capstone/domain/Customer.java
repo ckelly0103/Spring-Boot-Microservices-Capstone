@@ -10,6 +10,7 @@ public class Customer {
     private String id;
     private String name;
     private String email;
+    private String password;
     private String companyName;
     private String location;
     private int employeeCount;
@@ -38,6 +39,14 @@ public class Customer {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getCompanyName() { return companyName; }
