@@ -24,7 +24,7 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/").permitAll()  // Allow access to root endpoint without token
-                .requestMatchers("/customers/**").authenticated()  // Require authentication for customer endpoints
+                .requestMatchers("/customers/**").permitAll()  // Temporarily allow access without token for testing
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
