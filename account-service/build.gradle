@@ -34,3 +34,8 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// Explicitly specify the main class for bootRun and jar tasks
+springBoot {
+	mainClass = 'com.capstone.account.AccountServiceApplication'
+}
