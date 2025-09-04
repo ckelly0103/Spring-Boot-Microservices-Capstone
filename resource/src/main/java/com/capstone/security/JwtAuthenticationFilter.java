@@ -14,7 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@Component
+// @Component  // Temporarily disabled for testing
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
