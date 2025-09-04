@@ -1,13 +1,13 @@
-package com.capstone.authorization;
+package com.capstone.account;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AuthorizationApplication {
+public class AccountServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AuthorizationApplication.class, args);
+		SpringApplication.run(AccountServiceApplication.class, args);
 	}
 
 }

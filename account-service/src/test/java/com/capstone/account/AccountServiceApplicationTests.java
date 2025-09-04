@@ -1,10 +1,10 @@
-package com.capstone.authorization;
+package com.capstone.account;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AuthorizationApplicationTests {
+class AccountServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
