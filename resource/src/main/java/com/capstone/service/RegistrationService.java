@@ -24,7 +24,16 @@ public class RegistrationService {
     }
 
     public List<Registration> getRegistrationsByCustomerId(String customerId){
-        return repository.findByCustomerId(customerId);
+        try {
+            System.out.println("DEBUG: Fetching registrations for customer ID: " + customerId);
+            List<Registration> registrations = repository.findByCustomerId(customerId);
+            System.out.println("DEBUG: Found " + (registrations != null ? registrations.size() : 0) + " registrations");
+            return registrations;
+        } catch (Exception e) {
+            System.err.println("ERROR: Failed to fetch registrations for customer " + customerId + ": " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     public List<Registration> getRegistrationsByEventId(String eventId){
@@ -35,16 +44,15 @@ public class RegistrationService {
         repository.deleteById(id);
     }
 
+    public Registration createRegistration(Registration registration) {
+        return repository.save(registration);
+    }
+
     public Registration updateRegistration(Registration registration, String id) {
         if(registration == null || repository.findById(id).isEmpty()) {
             return null;
         } else{
             return repository.save(registration);
         }
-
     }
-
-
-
-
 }

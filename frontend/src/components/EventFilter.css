@@ -1,0 +1,192 @@
+/* Event filter section styles */
+.filter-section {
+  background: #FFFFFF; /* ADP White */
+  border: 1px solid #F2F3F3; /* ADP Light Gray */
+  border-radius: 5px; /* ADP Standard Border Radius */
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  margin-bottom: 1.5rem;
+}
+
+.filter-section h3 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #010035; /* ADP Midnight */
+}
+
+/* Simple Filter */
+.simple-filter {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #F2F3F3; /* ADP Light Gray */
+}
+
+.filter-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-select,
+.filter-input {
+  padding: 0.75rem;
+  border: 1px solid #F2F3F3; /* ADP Light Gray */
+  border-radius: 5px; /* ADP Standard Border Radius */
+  background: #FFFFFF; /* ADP White */
+  color: #010035; /* ADP Midnight */
+  font-size: 1rem;
+  min-width: 180px;
+  flex: 1;
+}
+
+.filter-select:focus,
+.filter-input:focus {
+  outline: none;
+  border-color: #D0271D; /* ADP Red */
+  box-shadow: 0 0 0 2px rgba(208, 39, 29, 0.1);
+}
+
+.filter-btn {
+  min-width: 120px;
+  flex-shrink: 0;
+}
+
+/* Advanced Filter Toggle */
+.advanced-toggle {
+  margin-bottom: 1rem;
+}
+
+.toggle-btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  min-width: auto;
+}
+
+/* Advanced Filter */
+.advanced-filter {
+  margin-bottom: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #F2F3F3; /* ADP Light Gray */
+}
+
+.advanced-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.advanced-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.advanced-filter label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #010035; /* ADP Midnight */
+}
+
+.advanced-filter input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #F2F3F3; /* ADP Light Gray */
+  border-radius: 5px; /* ADP Standard Border Radius */
+  background: #FFFFFF; /* ADP White */
+  color: #010035; /* ADP Midnight */
+  transition: border-color 0.2s;
+}
+
+.advanced-filter input:focus {
+  outline: none;
+  border-color: #D0271D; /* ADP Red */
+  box-shadow: 0 0 0 2px rgba(208, 39, 29, 0.1);
+}
+
+.advanced-filter input::placeholder {
+  color: #54565A; /* ADP Dark Gray */
+}
+
+.advanced-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+/* Clear section */
+.clear-section {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #F2F3F3; /* ADP Light Gray */
+}
+
+.clear-all-btn {
+  width: 100%;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid transparent;
+  border-radius: 5px; /* ADP Standard Border Radius */
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 120px;
+}
+
+.btn.primary {
+  background: #D0271D; /* ADP Red */
+  color: #FFFFFF; /* ADP White */
+}
+
+.btn.primary:hover:not(:disabled) {
+  background: #B01F17; /* ADP Red Hover */
+}
+
+.btn.secondary {
+  background: #F2F3F3; /* ADP Light Gray */
+  color: #010035; /* ADP Midnight */
+  border: 1px solid #54565A; /* ADP Dark Gray */
+}
+
+.btn.secondary:hover:not(:disabled) {
+  background: #FFE5E7; /* ADP Light Pink */
+  border-color: #D0271D; /* ADP Red */
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .filter-section {
+    padding: 1rem;
+  }
+  
+  .filter-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filter-select,
+  .filter-input {
+    min-width: unset;
+    width: 100%;
+  }
+  
+  .advanced-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+}

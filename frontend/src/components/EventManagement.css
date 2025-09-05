@@ -1,0 +1,27 @@
+/* Main layout container for filter section */
+.filter-container {
+  width: 100%;
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Event data container */
+.container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+}
+
+@media (max-width: 768px) {
+  .filter-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}

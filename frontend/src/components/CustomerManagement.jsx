@@ -7,7 +7,7 @@ import NLPQuery from './NLPQuery'
 import apiService from '../api.js'
 import './CustomerManagement.css'
 
-function CustomerManagement({ onLogout }) {
+function CustomerManagement({ onLogout, onNavigate }) {
   const [customers, setCustomers] = useState([])
   const [allCustomers, setAllCustomers] = useState([]) // Keep original list for filtering
   const [selected, setSelected] = useState(null)
@@ -277,7 +277,11 @@ function CustomerManagement({ onLogout }) {
 
   return (
     <div>
-      <Header onLogout={onLogout} />
+      <Header 
+        onLogout={onLogout} 
+        currentView="customers" 
+        onNavigate={onNavigate} 
+      />
       
       {/* Two-column layout for NLP and Filter */}
       <div className="filter-container">

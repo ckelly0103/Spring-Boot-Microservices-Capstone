@@ -20,7 +20,7 @@ public class JwtTokenService {
     /**
      * Generate JWT token for authenticated user
      */
-    public String generateToken(String username, String email) {
+    public String generateToken(String username, String email, String customerId) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
         
@@ -29,6 +29,7 @@ public class JwtTokenService {
         return Jwts.builder()
                 .subject(username)
                 .claim("email", email)
+                .claim("customerId", customerId)
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(key)
@@ -63,6 +64,21 @@ public class JwtTokenService {
                 .getPayload();
         
         return claims.get("email", String.class);
+    }
+    
+    /**
+     * Get customer ID from JWT token
+     */
+    public String getCustomerIdFromToken(String token) {
+        SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+        
+        Claims claims = Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        
+        return claims.get("customerId", String.class);
     }
     
     /**

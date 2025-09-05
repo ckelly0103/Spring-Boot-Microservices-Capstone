@@ -1,14 +1,40 @@
-const API_BASE_URL = 'http://localhost:3000/api';
+const ACCOUNT_SERVICE_URL = 'http://localhost:8081/account';
+const RESOURCE_SERVICE_URL = 'http://localhost:8080/api';
 
 class ApiService {
-  async request(endpoint, options = {}) {
-    const url = `${API_BASE_URL}${endpoint}`;
+  constructor() {
+    this.token = localStorage.getItem('authToken');
+  }
+
+  setToken(token) {
+    this.token = token;
+    if (token) {
+      localStorage.setItem('authToken', token);
+    } else {
+      localStorage.removeItem('authToken');
+    }
+  }
+
+  getAuthHeaders() {
+    const headers = {
+      'Content-Type': 'application/json'
+    };
+    
+    if (this.token) {
+      headers['Authorization'] = `Bearer ${this.token}`;
+    }
+    
+    return headers;
+  }
+
+  async request(endpoint, options = {}, useAccountService = false) {
+    const baseUrl = useAccountService ? ACCOUNT_SERVICE_URL : RESOURCE_SERVICE_URL;
+    const url = `${baseUrl}${endpoint}`;
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        ...this.getAuthHeaders(),
         ...options.headers
       },
-      credentials: 'include',
       ...options
     };
 
@@ -20,8 +46,14 @@ class ApiService {
       const response = await fetch(url, config);
       
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'API request failed');
+        if (response.status === 401) {
+          // Token expired or invalid
+          this.setToken(null);
+          throw new Error('Authentication failed. Please log in again.');
+        }
+        
+        const error = await response.json().catch(() => ({ error: 'API request failed' }));
+        throw new Error(error.error || error.message || 'API request failed');
       }
 
       return await response.json();
@@ -59,56 +91,174 @@ class ApiService {
     });
   }
 
-  async filterCustomersByName(name) {
-    return this.request('/customers/filter/name/', {
-      method: 'POST',
-      body: { name }
-    });
-  }
-
-  async filterCustomersByCompany(companyName) {
-    return this.request('/customers/filter/company/', {
-      method: 'POST',
-      body: { companyName }
-    });
-  }
-
-  async filterCustomersByLocation(location) {
-    return this.request('/customers/filter/location/', {
-      method: 'POST',
-      body: { location }
-    });
-  }
-
-  async filterCustomersByAttributes(attributes) {
-    return this.request('/customers/attributes', {
-      method: 'POST',
-      body: attributes
-    });
-  }
-
+  // Authentication methods - use account service
   async login(email, password) {
-    return this.request('/auth/login', {
+    const response = await this.request('/token', {
       method: 'POST',
-      body: { email, password }
-    });
+      body: { username: email, password }
+    }, true); // Use account service
+    
+    if (response.token) {
+      this.setToken(response.token);
+    }
+    
+    return response;
+  }
+
+  async register(name, email, password) {
+    return this.request('/register', {
+      method: 'POST',
+      body: { name, email, password }
+    }, true); // Use account service
   }
 
   async logout() {
-    return this.request('/auth/logout', {
-      method: 'POST'
-    });
-  }
-
-  async createUser(name, email, password) {
-    return this.request('/users', {
-      method: 'POST',
-      body: { name, email, password }
-    });
+    this.setToken(null);
+    return Promise.resolve({ success: true });
   }
 
   async checkSession() {
-    return this.request('/auth/check');
+    if (!this.token) {
+      return Promise.resolve({ isLoggedIn: false });
+    }
+    
+    try {
+      // Try to make a request to verify token is still valid
+      await this.getAllCustomers();
+      return { isLoggedIn: true };
+    } catch (error) {
+      this.setToken(null);
+      return { isLoggedIn: false };
+    }
+  }
+
+  // Filter methods - implement client-side filtering since backend doesn't have these endpoints
+  async filterCustomersByName(name) {
+    const customers = await this.getAllCustomers();
+    return customers.filter(customer => 
+      customer.name.toLowerCase().includes(name.toLowerCase())
+    );
+  }
+
+  async filterCustomersByCompany(companyName) {
+    const customers = await this.getAllCustomers();
+    return customers.filter(customer => 
+      customer.companyName && customer.companyName.toLowerCase().includes(companyName.toLowerCase())
+    );
+  }
+
+  async filterCustomersByLocation(location) {
+    const customers = await this.getAllCustomers();
+    return customers.filter(customer => 
+      customer.location && customer.location.toLowerCase().includes(location.toLowerCase())
+    );
+  }
+
+  async filterCustomersByAttributes(attributes) {
+    const customers = await this.getAllCustomers();
+    return customers.filter(customer => {
+      return Object.entries(attributes).every(([key, value]) => {
+        if (typeof value === 'number') {
+          return customer[key] === value;
+        }
+        return customer[key] && customer[key].toString().toLowerCase().includes(value.toString().toLowerCase());
+      });
+    });
+  }
+
+  // Event management methods
+  async getAllEvents() {
+    return this.request('/events');
+  }
+
+  async getEvent(id) {
+    return this.request(`/events/${id}`);
+  }
+
+  async createEvent(eventData) {
+    return this.request('/events', {
+      method: 'POST',
+      body: eventData
+    });
+  }
+
+  async updateEvent(id, eventData) {
+    return this.request(`/events/${id}`, {
+      method: 'PUT',
+      body: { ...eventData, id }
+    });
+  }
+
+  async deleteEvent(id) {
+    return this.request(`/events/${id}`, {
+      method: 'DELETE'
+    });
+  }
+
+  // Event registration methods
+  async getAllRegistrations() {
+    return this.request('/registrations');
+  }
+
+  async getRegistration(id) {
+    return this.request(`/registrations/${id}`);
+  }
+
+  async getRegistrationsByCustomerId(customerId) {
+    return this.request(`/registrations/customer/${customerId}`);
+  }
+
+  async getRegistrationsByEventId(eventId) {
+    return this.request(`/registrations/event/${eventId}`);
+  }
+
+  async createRegistration(registrationData) {
+    return this.request('/registrations', {
+      method: 'POST',
+      body: registrationData
+    });
+  }
+
+  async updateRegistration(id, registrationData) {
+    return this.request(`/registrations/${id}`, {
+      method: 'PUT',
+      body: { ...registrationData, id }
+    });
+  }
+
+  async deleteRegistration(id) {
+    return this.request(`/registrations/${id}`, {
+      method: 'DELETE'
+    });
+  }
+
+  // Convenience methods for event registration
+  async registerForEvent(customerId, eventId, eventName) {
+    return this.createRegistration({
+      customerId,
+      eventId,
+      eventName,
+      status: 'registered'
+    });
+  }
+
+  async unregisterFromEvent(customerId, eventId) {
+    // Find the registration and delete it
+    const registrations = await this.getRegistrationsByCustomerId(customerId);
+    const registration = registrations.find(reg => reg.eventId === eventId);
+    if (registration) {
+      return this.deleteRegistration(registration.id);
+    }
+    throw new Error('Registration not found');
+  }
+
+  async getMyRegistrations(customerId) {
+    return this.getRegistrationsByCustomerId(customerId);
+  }
+
+  // Get current user info from JWT token
+  async getCurrentUser() {
+    return this.request('/me', {}, true); // Use account service
   }
 }
 

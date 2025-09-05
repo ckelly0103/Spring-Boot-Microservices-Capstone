@@ -1,0 +1,280 @@
+/* Simplified event list styles */
+.list-section {
+  background: #FFFFFF; /* ADP White */
+  border: 1px solid #F2F3F3; /* ADP Light Gray */
+  border-radius: 5px; /* ADP Standard Border Radius */
+  padding: 1rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+/* List header with inline pagination */
+.list-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.list-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #010035; /* ADP Midnight */
+}
+
+.filter-indicator {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #D0271D; /* ADP Red */
+  font-style: italic;
+}
+
+/* Clear filter section */
+.clear-filter-section {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #F2F3F3; /* ADP Light Gray */
+}
+
+.clear-filter-btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  min-width: auto;
+}
+
+/* Button styles for clear filter */
+.btn {
+  border: 1px solid transparent;
+  border-radius: 5px; /* ADP Standard Border Radius */
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.btn.secondary {
+  background: #F2F3F3; /* ADP Light Gray */
+  color: #010035; /* ADP Midnight */
+  border: 1px solid #54565A; /* ADP Dark Gray */
+}
+
+.btn.secondary:hover:not(:disabled) {
+  background: #FFE5E7; /* ADP Light Pink */
+  border-color: #D0271D; /* ADP Red */
+}
+
+.btn.primary {
+  background: #D0271D; /* ADP Red */
+  color: #FFFFFF; /* ADP White */
+  border: 1px solid #D0271D;
+}
+
+.btn.primary:hover:not(:disabled) {
+  background: #B02319; /* Darker red */
+  border-color: #B02319;
+}
+
+.btn.danger {
+  background: #DC2626; /* Danger red */
+  color: #FFFFFF;
+  border: 1px solid #DC2626;
+}
+
+.btn.danger:hover:not(:disabled) {
+  background: #B91C1C; /* Darker danger red */
+  border-color: #B91C1C;
+}
+
+.btn.small {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  min-width: auto;
+}
+
+/* Pagination section */
+.pagination-section {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #F2F3F3; /* ADP Light Gray */
+}
+
+/* Inline pagination styles */
+.inline-pagination {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.inline-pagination .pagination-btn {
+  padding: 0.375rem 0.5rem;
+  border: 1px solid #F2F3F3; /* ADP Light Gray */
+  border-radius: 5px; /* ADP Standard Border Radius */
+  background: #FFFFFF; /* ADP White */
+  color: #010035; /* ADP Midnight */
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inline-pagination .pagination-btn:hover:not(.disabled) {
+  background: #FFE5E7; /* ADP Light Pink */
+  border-color: #D0271D; /* ADP Red */
+}
+
+.inline-pagination .pagination-btn.active {
+  background: #D0271D; /* ADP Red */
+  border-color: #D0271D; /* ADP Red */
+  color: #FFFFFF; /* ADP White */
+}
+
+.inline-pagination .pagination-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #F2F3F3; /* ADP Light Gray */
+}
+
+.inline-pagination .pagination-ellipsis {
+  padding: 0.375rem 0.25rem;
+  color: #54565A; /* ADP Dark Gray */
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.75rem;
+  height: 1.75rem;
+}
+
+.events {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  /* 3 column layout for events */
+}
+
+.event {
+  padding: 1rem;
+  border: 1px solid #F2F3F3; /* ADP Light Gray */
+  border-radius: 5px; /* ADP Standard Border Radius */
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #FFFFFF; /* ADP White */
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.event.registered {
+  border-left: 4px solid #28C840; /* Success green */
+  background: #F0F9F1; /* Light green background */
+}
+
+.event-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.event-actions {
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.registration-badge {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: #28C840; /* Success green */
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.event:hover {
+  border-color: #D0271D; /* ADP Red */
+  background: #FFE5E7; /* ADP Light Pink */
+}
+
+.event.selected {
+  border-color: #D0271D; /* ADP Red */
+  background: #FFE5E7; /* ADP Light Pink */
+  font-weight: 600;
+}
+
+.event-name {
+  font-weight: 700;
+  color: #010035; /* ADP Midnight */
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.event-description {
+  color: #54565A; /* ADP Dark Gray */
+  font-size: 0.875rem;
+  line-height: 1.4;
+  flex-grow: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.event-availability {
+  color: #010035; /* ADP Midnight */
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.event-date {
+  color: #D0271D; /* ADP Red */
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .list-section {
+    padding: 1rem;
+  }
+  
+  /* Single column on mobile for better readability */
+  .events {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  /* 2 columns on tablets */
+  .events {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  /* Better spacing on large screens */
+  .events {
+    gap: 0.75rem;
+  }
+  
+  .event {
+    padding: 1.25rem;
+  }
+}
