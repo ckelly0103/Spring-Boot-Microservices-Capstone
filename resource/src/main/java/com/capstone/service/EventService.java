@@ -31,8 +31,12 @@ public class EventService {
         return repository.save(event);
     }
 
-    public Event updateEvent(Event event) {
-        return repository.save(event);
+    public Event updateEvent(Event event, String id) {
+        if (event == null || repository.findById(id).isEmpty()) {
+            return null;
+        }else{
+            return repository.save(event);
+        }
     }
 
     public void deleteEvent(String id) {

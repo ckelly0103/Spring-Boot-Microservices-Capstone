@@ -54,7 +54,7 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> putCustomer(@RequestBody Customer customer, @PathVariable String id){
+    public ResponseEntity<?> updateCustomer(@RequestBody Customer customer, @PathVariable String id){
         if (!Objects.equals(customer.getId(), id) || customer.getName() == null || customer.getEmail() == null){
             return ResponseEntity.badRequest().build();
         } else{
@@ -65,7 +65,12 @@ public class CustomerController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCustomer(@PathVariable String id){
-        customerService.deleteCustomer(id);
-        return ResponseEntity.ok().build();
+        Customer customer = customerService.getCustomerById(id);
+        if (customer == null){
+            return ResponseEntity.badRequest().build();
+        } else{
+            customerService.deleteCustomer(id);
+            return ResponseEntity.ok().build();
+        }
     }
 }
