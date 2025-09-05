@@ -1,7 +1,6 @@
 package com.capstone.controller;
 
 
-import com.capstone.domain.Customer;
 import com.capstone.domain.Event;
 import com.capstone.service.EventService;
 import org.springframework.http.ResponseEntity;
