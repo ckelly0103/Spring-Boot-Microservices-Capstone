@@ -16,6 +16,7 @@ public class Customer {
     private int employeeCount;
     private String phoneNumber;
     private String jobTitle;
+    private boolean isAdmin = false;
 
     public String getId() {
         return id;
@@ -68,4 +69,9 @@ public class Customer {
     public String getJobTitle() { return jobTitle; }
 
     public void setJobTitle(String jobTitle) { this.jobTitle = jobTitle; }
+
+    public boolean getIsAdmin() { return isAdmin; }
+
+    public void setIsAdmin(boolean admin) { this.isAdmin = admin; }
+
 }
