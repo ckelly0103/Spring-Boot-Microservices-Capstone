@@ -52,15 +52,8 @@ public class AccountController {
     @PostMapping("/register")
     public ResponseEntity<?> registerCustomer(@Valid @RequestBody CustomerRegistrationRequest registrationRequest) {
         try {
-            Customer customer = accountService.registerCustomer(registrationRequest);
-            
-            Map<String, Object> response = new HashMap<>();
-            response.put("message", "Customer registered successfully");
-            response.put("customerId", customer.getId());
-            response.put("email", customer.getEmail());
-            response.put("name", customer.getName());
-            
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            JwtResponse jwtResponse = accountService.registerCustomer(registrationRequest);
+            return ResponseEntity.status(HttpStatus.CREATED).body(jwtResponse);
         } catch (RuntimeException e) {
             Map<String, String> error = new HashMap<>();
             error.put("error", "Registration failed");
@@ -96,11 +89,13 @@ public class AccountController {
             }
             
             String email = jwtTokenService.getEmailFromToken(token);
-            String customerId = jwtTokenService.getCustomerIdFromToken(token);
+            
+            // Get customer info by email since registration tokens don't have customer ID
+            Customer customer = accountService.findCustomerByEmail(email);
             
             Map<String, String> userInfo = new HashMap<>();
             userInfo.put("email", email);
-            userInfo.put("customerId", customerId);
+            userInfo.put("customerId", customer.getId());
             
             return ResponseEntity.ok(userInfo);
         } catch (Exception e) {

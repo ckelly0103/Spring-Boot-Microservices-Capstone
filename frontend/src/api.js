@@ -3,15 +3,16 @@ const RESOURCE_SERVICE_URL = 'http://localhost:8080/api';
 
 class ApiService {
   constructor() {
-    this.token = localStorage.getItem('authToken');
+    // Use sessionStorage instead of localStorage for better security
+    this.token = sessionStorage.getItem('authToken');
   }
 
   setToken(token) {
     this.token = token;
     if (token) {
-      localStorage.setItem('authToken', token);
+      sessionStorage.setItem('authToken', token);
     } else {
-      localStorage.removeItem('authToken');
+      sessionStorage.removeItem('authToken');
     }
   }
 
@@ -52,11 +53,34 @@ class ApiService {
           throw new Error('Authentication failed. Please log in again.');
         }
         
-        const error = await response.json().catch(() => ({ error: 'API request failed' }));
-        throw new Error(error.error || error.message || 'API request failed');
+        let errorMessage = 'API request failed';
+        try {
+          const error = await response.json();
+          if (error.error) {
+            errorMessage = error.error;
+          } else if (error.message) {
+            errorMessage = error.message;
+          } else if (typeof error === 'object') {
+            // Handle validation errors (field-specific errors)
+            const validationErrors = Object.entries(error)
+              .map(([field, msg]) => `${field}: ${msg}`)
+              .join(', ');
+            errorMessage = validationErrors || 'Validation failed';
+          }
+        } catch (parseError) {
+          errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+        }
+        throw new Error(errorMessage);
       }
 
-      return await response.json();
+      // Handle empty responses (like DELETE operations)
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        return await response.json();
+      } else {
+        // Return empty object for non-JSON responses
+        return {};
+      }
     } catch (error) {
       console.error('API Error:', error);
       throw error;
@@ -106,10 +130,18 @@ class ApiService {
   }
 
   async register(name, email, password) {
-    return this.request('/register', {
+    console.log('Registration data:', { name, email, password: password ? '[HIDDEN]' : 'empty' });
+    const response = await this.request('/register', {
       method: 'POST',
       body: { name, email, password }
     }, true); // Use account service
+    
+    // Registration now returns a JWT token, so set it automatically
+    if (response.token) {
+      this.setToken(response.token);
+    }
+    
+    return response;
   }
 
   async logout() {

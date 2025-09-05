@@ -4,6 +4,7 @@ import apiService from '../api.js'
 
 function MyRegistrations({ customerId, onNavigate }) {
   const [registrations, setRegistrations] = useState([])
+  const [events, setEvents] = useState({}) // Store event details by eventId
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -19,6 +20,19 @@ function MyRegistrations({ customerId, onNavigate }) {
       setError(null)
       const myRegistrations = await apiService.getMyRegistrations(customerId)
       setRegistrations(myRegistrations)
+      
+      // Fetch event details for each registration
+      const eventDetails = {}
+      for (const registration of myRegistrations) {
+        try {
+          const event = await apiService.getEvent(registration.eventId)
+          eventDetails[registration.eventId] = event
+        } catch (err) {
+          console.error('Failed to load event details for:', registration.eventId)
+          // Continue loading other events even if one fails
+        }
+      }
+      setEvents(eventDetails)
     } catch (error) {
       console.error('Error loading registrations:', error)
       setError('Failed to load your registrations. Please try again.')
@@ -109,42 +123,56 @@ function MyRegistrations({ customerId, onNavigate }) {
           </div>
           
           <div className="registrations-grid">
-            {registrations.map(registration => (
-              <div key={registration.id} className="registration-card">
-                <div className="registration-header">
-                  <h3>{registration.eventName}</h3>
-                  <span className={`status ${registration.status}`}>
-                    {registration.status}
-                  </span>
-                </div>
-                
-                <div className="registration-details">
-                  <div className="detail-item">
-                    <span className="label">Event ID:</span>
-                    <span className="value">{registration.eventId}</span>
+            {registrations.map(registration => {
+              const event = events[registration.eventId]
+              return (
+                <div key={registration.id} className="registration-card">
+                  <div className="registration-header">
+                    <h3>{registration.eventName}</h3>
+                    <span className={`status ${registration.status}`}>
+                      {registration.status}
+                    </span>
                   </div>
-                  <div className="detail-item">
-                    <span className="label">Registration ID:</span>
-                    <span className="value">{registration.id}</span>
+                  
+                  {event && (
+                    <div className="event-details">
+                      <div className="detail-item">
+                        <span className="label">Description:</span>
+                        <span className="value">{event.description || 'No description'}</span>
+                      </div>
+                      <div className="detail-item">
+                        <span className="label">Date:</span>
+                        <span className="value">{formatDate(event.date)}</span>
+                      </div>
+                      <div className="detail-item">
+                        <span className="label">Location:</span>
+                        <span className="value">{event.location || 'No location specified'}</span>
+                      </div>
+                      <div className="detail-item">
+                        <span className="label">Capacity:</span>
+                        <span className="value">{event.capacity || 'Unlimited'}</span>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="registration-details">
+                    <div className="detail-item">
+                      <span className="label">Registration ID:</span>
+                      <span className="value">{registration.id}</span>
+                    </div>
                   </div>
-                </div>
 
-                <div className="registration-actions">
-                  <button 
-                    className="btn danger"
-                    onClick={() => handleUnregister(registration)}
-                  >
-                    Unregister
-                  </button>
-                  <button 
-                    className="btn secondary"
-                    onClick={() => onNavigate('events')}
-                  >
-                    View Event Details
-                  </button>
+                  <div className="registration-actions">
+                    <button 
+                      className="btn danger"
+                      onClick={() => handleUnregister(registration)}
+                    >
+                      Unregister
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       )}

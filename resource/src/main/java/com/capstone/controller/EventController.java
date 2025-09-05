@@ -27,7 +27,7 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getEventById(@PathVariable String id) {
+    public ResponseEntity<?> getEventById(@PathVariable("id") String id) {
         Event event = eventService.getEventById(id);
         if (event == null){
             return ResponseEntity.badRequest().build();
@@ -54,7 +54,7 @@ public class EventController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateEvent(@RequestBody Event event, @PathVariable String id){
+    public ResponseEntity<?> updateEvent(@RequestBody Event event, @PathVariable("id") String id){
         if (!Objects.equals(event.getId(), id) || event.getEventName() == null || event.getEventDescription() == null || event.getEventStartDate() == null){
             return ResponseEntity.badRequest().build();
         } else{
@@ -64,7 +64,7 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteEvent(@PathVariable String id){
+    public ResponseEntity<?> deleteEvent(@PathVariable("id") String id){
         Event event = eventService.getEventById(id);
         if (event == null){
             return ResponseEntity.badRequest().build();

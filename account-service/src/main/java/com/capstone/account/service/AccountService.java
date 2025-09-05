@@ -21,9 +21,9 @@ public class AccountService {
     private PasswordEncoder passwordEncoder;
     
     /**
-     * Register a new customer
+     * Register a new customer and return JWT token
      */
-    public Customer registerCustomer(CustomerRegistrationRequest request) {
+    public JwtResponse registerCustomer(CustomerRegistrationRequest request) {
         // Create new customer with encoded password (skip duplicate check for now)
         Customer customer = new Customer();
         customer.setName(request.getName());
@@ -31,7 +31,12 @@ public class AccountService {
         customer.setPassword(passwordEncoder.encode(request.getPassword()));
         
         // Save customer via Data Service
-        return dataServiceClient.createCustomer(customer);
+        Customer savedCustomer = dataServiceClient.createCustomer(customer);
+        
+        // Generate JWT token for the newly registered customer
+        String token = jwtTokenService.generateToken(savedCustomer.getEmail(), savedCustomer.getEmail());
+        
+        return new JwtResponse(token, savedCustomer.getEmail(), savedCustomer.getEmail());
     }
     
     /**
@@ -64,5 +69,12 @@ public class AccountService {
         String token = jwtTokenService.generateToken(customer.getEmail(), customer.getEmail(), customer.getId());
         
         return new JwtResponse(token, customer.getEmail(), customer.getEmail());
+    }
+    
+    /**
+     * Find customer by email (for /me endpoint)
+     */
+    public Customer findCustomerByEmail(String email) {
+        return dataServiceClient.findCustomerByEmail(email);
     }
 }

@@ -14,7 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-// @Component  // Temporarily disabled for testing
+@Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -24,20 +24,31 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, 
                                   FilterChain filterChain) throws ServletException, IOException {
         
-        // Skip JWT validation for root endpoint and customer endpoints (for testing)
+        // Skip JWT validation for specific endpoints
         String requestPath = request.getServletPath();
-        if ("/".equals(requestPath) || requestPath.startsWith("/customers") || requestPath.startsWith("/api")) {
+        if ("/".equals(requestPath)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        
+        // Allow /customers for authentication and registration purposes (account service needs this)
+        if (requestPath.equals("/customers") && 
+            (request.getMethod().equals("GET") || request.getMethod().equals("POST"))) {
             filterChain.doFilter(request, response);
             return;
         }
 
         String authorizationHeader = request.getHeader("Authorization");
+        System.out.println("DEBUG: Processing request to " + requestPath + " with auth header: " + (authorizationHeader != null ? "Present" : "Missing"));
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring(7);
+            System.out.println("DEBUG: Extracted JWT token: " + token.substring(0, Math.min(50, token.length())) + "...");
             
             try {
-                if (jwtTokenUtil.validateToken(token)) {
+                boolean isValid = jwtTokenUtil.validateToken(token);
+                System.out.println("DEBUG: JWT validation result: " + isValid);
+                if (isValid) {
                     String username = jwtTokenUtil.getUsernameFromToken(token);
                     String email = jwtTokenUtil.getEmailFromToken(token);
                     

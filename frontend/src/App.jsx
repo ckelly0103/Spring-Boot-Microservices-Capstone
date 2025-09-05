@@ -50,9 +50,19 @@ function App() {
 
   const handleRegister = async (name, email, password) => {
     try {
-      await apiService.register(name, email, password)
-      alert('User registered successfully! Please log in.')
-      setCurrentView('login')
+      const response = await apiService.register(name, email, password)
+      // Registration now automatically logs the user in with JWT token
+      if (response.token) {
+        // Fetch current user info after successful registration
+        const userInfo = await apiService.getCurrentUser()
+        setCurrentUser(userInfo)
+        setIsLoggedIn(true)
+        setCurrentView('customers')
+        alert('User registered successfully!')
+      } else {
+        alert('User registered successfully! Please log in.')
+        setCurrentView('login')
+      }
     } catch (error) {
       alert('Registration failed: ' + error.message)
     }

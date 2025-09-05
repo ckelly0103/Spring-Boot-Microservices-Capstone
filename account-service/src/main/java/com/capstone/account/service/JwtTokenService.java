@@ -18,7 +18,7 @@ public class JwtTokenService {
     private int jwtExpirationMs;
     
     /**
-     * Generate JWT token for authenticated user
+     * Generate JWT token for authenticated user (with customer ID)
      */
     public String generateToken(String username, String email, String customerId) {
         Date now = new Date();
@@ -30,6 +30,24 @@ public class JwtTokenService {
                 .subject(username)
                 .claim("email", email)
                 .claim("customerId", customerId)
+                .issuedAt(now)
+                .expiration(expiryDate)
+                .signWith(key)
+                .compact();
+    }
+    
+    /**
+     * Generate JWT token for registration (without customer ID initially)
+     */
+    public String generateToken(String username, String email) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
+        
+        SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+        
+        return Jwts.builder()
+                .subject(username)
+                .claim("email", email)
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(key)

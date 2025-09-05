@@ -27,7 +27,7 @@ public class RegistrationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getRegistrationById(@PathVariable String id) {
+    public ResponseEntity<?> getRegistrationById(@PathVariable("id") String id) {
         Registration registration = registrationService.getRegistrationById(id);
         if (registration == null) {
             return ResponseEntity.notFound().build();
@@ -37,7 +37,7 @@ public class RegistrationController {
     }
 
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<?> getRegistrationsByCustomerId(@PathVariable String customerId) {
+    public ResponseEntity<?> getRegistrationsByCustomerId(@PathVariable("customerId") String customerId) {
         try {
             List<Registration> registrations = registrationService.getRegistrationsByCustomerId(customerId);
             return ResponseEntity.ok(registrations);
@@ -48,7 +48,7 @@ public class RegistrationController {
     }
 
     @GetMapping("/event/{eventId}")
-    public List<Registration> getRegistrationsByEventId(@PathVariable String eventId) {
+    public List<Registration> getRegistrationsByEventId(@PathVariable("eventId") String eventId) {
         return registrationService.getRegistrationsByEventId(eventId);
     }
 
@@ -69,7 +69,7 @@ public class RegistrationController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateRegistration(@RequestBody Registration registration, @PathVariable String id) {
+    public ResponseEntity<?> updateRegistration(@RequestBody Registration registration, @PathVariable("id") String id) {
         if (!Objects.equals(registration.getId(), id) || registration.getCustomerId() == null || registration.getEventId() == null) {
             return ResponseEntity.badRequest().build();
         } else {
@@ -79,7 +79,7 @@ public class RegistrationController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteRegistration(@PathVariable String id) {
+    public ResponseEntity<?> deleteRegistration(@PathVariable("id") String id) {
         Registration registration = registrationService.getRegistrationById(id);
         if (registration == null) {
             return ResponseEntity.notFound().build();
