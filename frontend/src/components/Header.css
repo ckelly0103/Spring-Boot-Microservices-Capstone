@@ -1,4 +1,4 @@
-/* Simplified header styles */
+/* Header styles */
 .header {
   display: flex;
   justify-content: space-between;
@@ -8,6 +8,44 @@
 
 .header h1 {
   margin: 0;
+  color: #010035; /* ADP Midnight */
+}
+
+.header-nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Button styles */
+.btn {
+  padding: 0.75rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: 5px; /* ADP Standard Border Radius */
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.btn.primary {
+  background: #D0271D; /* ADP Red */
+  color: #FFFFFF; /* ADP White */
+}
+
+.btn.primary:hover:not(:disabled) {
+  background: #B01F17; /* ADP Red Hover */
+}
+
+.btn.secondary {
+  background: #F2F3F3; /* ADP Light Gray */
+  color: #010035; /* ADP Midnight */
+  border: 1px solid #54565A; /* ADP Dark Gray */
+}
+
+.btn.secondary:hover:not(:disabled) {
+  background: #FFE5E7; /* ADP Light Pink */
+  border-color: #D0271D; /* ADP Red */
 }
 
 @media (max-width: 768px) {
@@ -15,5 +53,14 @@
     flex-direction: column;
     gap: 1rem;
     text-align: center;
+  }
+  
+  .header-nav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .btn {
+    min-width: 100px;
   }
 }

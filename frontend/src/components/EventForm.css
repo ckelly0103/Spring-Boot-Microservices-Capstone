@@ -1,0 +1,131 @@
+/* Event form styles */
+.form-section {
+  background: #FFFFFF; /* ADP White */
+  border: 1px solid #F2F3F3; /* ADP Light Gray */
+  border-radius: 5px; /* ADP Standard Border Radius */
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+.form-section h3 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #010035; /* ADP Midnight */
+}
+
+/* 2-column form layout */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-section label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #010035; /* ADP Midnight */
+}
+
+.form-section input,
+.form-section textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #F2F3F3; /* ADP Light Gray */
+  border-radius: 5px; /* ADP Standard Border Radius */
+  background: #FFFFFF; /* ADP White */
+  color: #010035; /* ADP Midnight */
+  transition: border-color 0.2s;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.form-section input:focus,
+.form-section textarea:focus {
+  outline: none;
+  border-color: #D0271D; /* ADP Red */
+  box-shadow: 0 0 0 2px rgba(208, 39, 29, 0.1);
+}
+
+.form-section input::placeholder,
+.form-section textarea::placeholder {
+  color: #54565A; /* ADP Dark Gray */
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.btn {
+  padding: 0.75rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: 5px; /* ADP Standard Border Radius */
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.primary {
+  background: #D0271D; /* ADP Red */
+  color: #FFFFFF; /* ADP White */
+}
+
+.primary:hover:not(:disabled) {
+  background: #B01F17; /* ADP Red Hover */
+}
+
+.danger {
+  background: #54565A; /* ADP Dark Gray */
+  color: #FFFFFF; /* ADP White */
+}
+
+.danger:hover:not(:disabled) {
+  background: #D0271D; /* ADP Red */
+  color: #FFFFFF; /* ADP White */
+}
+
+.secondary {
+  background: #F2F3F3; /* ADP Light Gray */
+  color: #010035; /* ADP Midnight */
+  border: 1px solid #54565A; /* ADP Dark Gray */
+}
+
+.secondary:hover:not(:disabled) {
+  background: #FFE5E7; /* ADP Light Pink */
+  border-color: #D0271D; /* ADP Red */
+}
+
+@media (max-width: 768px) {
+  .form-section {
+    padding: 1rem;
+  }
+  
+  /* Single column on mobile */
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .buttons {
+    flex-direction: column;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+}
