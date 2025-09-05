@@ -194,6 +194,72 @@ class ApiService {
       method: 'DELETE'
     });
   }
+
+  // Event registration methods
+  async getAllRegistrations() {
+    return this.request('/registrations');
+  }
+
+  async getRegistration(id) {
+    return this.request(`/registrations/${id}`);
+  }
+
+  async getRegistrationsByCustomerId(customerId) {
+    return this.request(`/registrations/customer/${customerId}`);
+  }
+
+  async getRegistrationsByEventId(eventId) {
+    return this.request(`/registrations/event/${eventId}`);
+  }
+
+  async createRegistration(registrationData) {
+    return this.request('/registrations', {
+      method: 'POST',
+      body: registrationData
+    });
+  }
+
+  async updateRegistration(id, registrationData) {
+    return this.request(`/registrations/${id}`, {
+      method: 'PUT',
+      body: { ...registrationData, id }
+    });
+  }
+
+  async deleteRegistration(id) {
+    return this.request(`/registrations/${id}`, {
+      method: 'DELETE'
+    });
+  }
+
+  // Convenience methods for event registration
+  async registerForEvent(customerId, eventId, eventName) {
+    return this.createRegistration({
+      customerId,
+      eventId,
+      eventName,
+      status: 'registered'
+    });
+  }
+
+  async unregisterFromEvent(customerId, eventId) {
+    // Find the registration and delete it
+    const registrations = await this.getRegistrationsByCustomerId(customerId);
+    const registration = registrations.find(reg => reg.eventId === eventId);
+    if (registration) {
+      return this.deleteRegistration(registration.id);
+    }
+    throw new Error('Registration not found');
+  }
+
+  async getMyRegistrations(customerId) {
+    return this.getRegistrationsByCustomerId(customerId);
+  }
+
+  // Get current user info from JWT token
+  async getCurrentUser() {
+    return this.request('/me', {}, true); // Use account service
+  }
 }
 
 export default new ApiService();

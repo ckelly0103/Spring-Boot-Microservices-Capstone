@@ -5,6 +5,7 @@ import com.capstone.account.dto.JwtResponse;
 import com.capstone.account.dto.LoginRequest;
 import com.capstone.account.model.Customer;
 import com.capstone.account.service.AccountService;
+import com.capstone.account.service.JwtTokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,9 @@ public class AccountController {
     
     @Autowired
     private AccountService accountService;
+    
+    @Autowired
+    private JwtTokenService jwtTokenService;
     
 
     @GetMapping("/")
@@ -76,5 +80,31 @@ public class AccountController {
             errors.put(fieldName, errorMessage);
         });
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    }
+    
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser(@RequestHeader("Authorization") String authHeader) {
+        try {
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "No valid authorization header"));
+            }
+            
+            String token = authHeader.substring(7); // Remove "Bearer " prefix
+            
+            if (!jwtTokenService.validateToken(token)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid token"));
+            }
+            
+            String email = jwtTokenService.getEmailFromToken(token);
+            String customerId = jwtTokenService.getCustomerIdFromToken(token);
+            
+            Map<String, String> userInfo = new HashMap<>();
+            userInfo.put("email", email);
+            userInfo.put("customerId", customerId);
+            
+            return ResponseEntity.ok(userInfo);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Failed to get user info"));
+        }
     }
 }

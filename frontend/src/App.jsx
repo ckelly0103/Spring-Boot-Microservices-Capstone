@@ -6,11 +6,13 @@ import LoginForm from './components/LoginForm'
 import RegisterForm from './components/RegisterForm'
 import CustomerManagement from './components/CustomerManagement'
 import EventManagement from './components/EventManagement'
+import MyRegistrations from './components/MyRegistrations'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  const [currentView, setCurrentView] = useState('login') //login, register, customers, events
+  const [currentView, setCurrentView] = useState('login') //login, register, customers, events, myregistrations
+  const [currentUser, setCurrentUser] = useState(null) // Store current user info
 
   useEffect(() => {
     checkInitialSession()
@@ -20,6 +22,9 @@ function App() {
     try {
       const result = await apiService.checkSession()
       if (result.isLoggedIn) {
+        // Fetch current user info
+        const userInfo = await apiService.getCurrentUser()
+        setCurrentUser(userInfo)
         setIsLoggedIn(true)
         setCurrentView('customers')
       }
@@ -33,6 +38,9 @@ function App() {
   const handleLogin = async (email, password) => {
     try {
       await apiService.login(email, password)
+      // Fetch current user info after successful login
+      const userInfo = await apiService.getCurrentUser()
+      setCurrentUser(userInfo)
       setIsLoggedIn(true)
       setCurrentView('customers')
     } catch (error) {
@@ -54,6 +62,7 @@ function App() {
     try {
       await apiService.logout()
       setIsLoggedIn(false)
+      setCurrentUser(null)
       setCurrentView('login')
     } catch (error) {
       console.error('Logout error:', error)
@@ -99,7 +108,11 @@ function App() {
   }
 
   if (currentView === 'events') {
-    return <EventManagement onLogout={handleLogout} onNavigate={handleNavigate} />
+    return <EventManagement onLogout={handleLogout} onNavigate={handleNavigate} currentUser={currentUser} />
+  }
+
+  if (currentView === 'myregistrations') {
+    return <MyRegistrations customerId={currentUser?.customerId} onNavigate={handleNavigate} />
   }
 
   // This should not happen but fallback to customers

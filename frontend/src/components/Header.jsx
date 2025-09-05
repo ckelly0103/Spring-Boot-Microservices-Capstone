@@ -17,6 +17,12 @@ function Header({ onLogout, currentView, onNavigate }) {
         >
           Events
         </button>
+        <button 
+          className={`btn ${currentView === 'myregistrations' ? 'primary' : 'secondary'}`} 
+          onClick={() => onNavigate('myregistrations')}
+        >
+          My Registrations
+        </button>
         <button className="btn secondary" onClick={onLogout}>
           Logout
         </button>

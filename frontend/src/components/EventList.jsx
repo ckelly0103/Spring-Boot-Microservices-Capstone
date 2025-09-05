@@ -10,7 +10,11 @@ function EventList({
   itemsPerPage,
   totalPages,
   onPageChange,
-  onClearFilter
+  onClearFilter,
+  onRegisterForEvent,
+  onUnregisterFromEvent,
+  userRegistrations = [],
+  currentCustomerId
 }) {
   const getFilterDescription = () => {
     if (!activeFilter) return ''
@@ -68,6 +72,24 @@ function EventList({
       return date.toLocaleDateString()
     } catch (error) {
       return dateString // Return as-is if can't parse
+    }
+  }
+
+  const isRegisteredForEvent = (eventId) => {
+    return userRegistrations.some(reg => reg.eventId === eventId)
+  }
+
+  const handleRegisterClick = (event, e) => {
+    e.stopPropagation() // Prevent event selection
+    if (onRegisterForEvent && currentCustomerId) {
+      onRegisterForEvent(currentCustomerId, event.id || event._id, event.eventName)
+    }
+  }
+
+  const handleUnregisterClick = (event, e) => {
+    e.stopPropagation() // Prevent event selection
+    if (onUnregisterFromEvent && currentCustomerId) {
+      onUnregisterFromEvent(currentCustomerId, event.id || event._id)
     }
   }
 
@@ -134,18 +156,53 @@ function EventList({
         </div>
       )}
       <div className="events">
-        {events.map(event => (
-          <div
-            key={event._id || event.id}
-            className={`event ${selectedEventId === (event._id || event.id) ? 'selected' : ''}`}
-            onClick={() => onSelectEvent(event._id || event.id)}
-          >
-            <div className="event-name">{event.eventName}</div>
-            <div className="event-description">{event.eventDescription}</div>
-            <div className="event-availability">Available: {event.eventAvailability}</div>
-            <div className="event-date">{formatDate(event.eventStartDate)}</div>
-          </div>
-        ))}
+        {events.map(event => {
+          const eventId = event._id || event.id
+          const isRegistered = isRegisteredForEvent(eventId)
+          
+          return (
+            <div
+              key={eventId}
+              className={`event ${selectedEventId === eventId ? 'selected' : ''} ${isRegistered ? 'registered' : ''}`}
+              onClick={() => onSelectEvent(eventId)}
+            >
+              <div className="event-content">
+                <div className="event-name">{event.eventName}</div>
+                <div className="event-description">{event.eventDescription}</div>
+                <div className="event-availability">Available: {event.eventAvailability}</div>
+                <div className="event-date">{formatDate(event.eventStartDate)}</div>
+                
+                {isRegistered && (
+                  <div className="registration-badge">
+                    ✓ Registered
+                  </div>
+                )}
+              </div>
+              
+              {currentCustomerId && (
+                <div className="event-actions">
+                  {isRegistered ? (
+                    <button 
+                      className="btn danger small"
+                      onClick={(e) => handleUnregisterClick(event, e)}
+                      title="Unregister from this event"
+                    >
+                      Unregister
+                    </button>
+                  ) : (
+                    <button 
+                      className="btn primary small"
+                      onClick={(e) => handleRegisterClick(event, e)}
+                      title="Register for this event"
+                    >
+                      Register
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          )
+        })}
       </div>
     </div>
   )

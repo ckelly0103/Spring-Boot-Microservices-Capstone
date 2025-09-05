@@ -6,7 +6,7 @@ import EventFilter from './EventFilter'
 import apiService from '../api.js'
 import './EventManagement.css'
 
-function EventManagement({ onLogout, onNavigate }) {
+function EventManagement({ onLogout, onNavigate, currentUser }) {
   const [events, setEvents] = useState([])
   const [allEvents, setAllEvents] = useState([]) // Keep original list for filtering
   const [selected, setSelected] = useState(null)
@@ -14,6 +14,7 @@ function EventManagement({ onLogout, onNavigate }) {
   const [activeFilter, setActiveFilter] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage] = useState(10) // 5 columns × 2 rows = 10 events per page
+  const [userRegistrations, setUserRegistrations] = useState([])
   const [form, setForm] = useState({ 
     eventName: '', 
     eventDescription: '', 
@@ -23,7 +24,10 @@ function EventManagement({ onLogout, onNavigate }) {
 
   useEffect(() => {
     loadEvents()
-  }, [])
+    if (currentUser?.customerId) {
+      loadUserRegistrations()
+    }
+  }, [currentUser])
 
   const loadEvents = async () => {
     try {
@@ -33,6 +37,17 @@ function EventManagement({ onLogout, onNavigate }) {
       setActiveFilter(null)
     } catch (error) {
       console.error('Error loading events:', error)
+    }
+  }
+
+  const loadUserRegistrations = async () => {
+    try {
+      if (currentUser?.customerId) {
+        const registrations = await apiService.getMyRegistrations(currentUser.customerId)
+        setUserRegistrations(registrations)
+      }
+    } catch (error) {
+      console.error('Error loading user registrations:', error)
     }
   }
 
@@ -190,6 +205,28 @@ function EventManagement({ onLogout, onNavigate }) {
     clearForm()
   }
 
+  const handleRegisterForEvent = async (customerId, eventId, eventName) => {
+    try {
+      await apiService.registerForEvent(customerId, eventId, eventName)
+      await loadUserRegistrations() // Refresh registrations
+      alert(`Successfully registered for "${eventName}"!`)
+    } catch (error) {
+      console.error('Error registering for event:', error)
+      alert('Failed to register for event. Please try again.')
+    }
+  }
+
+  const handleUnregisterFromEvent = async (customerId, eventId) => {
+    try {
+      await apiService.unregisterFromEvent(customerId, eventId)
+      await loadUserRegistrations() // Refresh registrations
+      alert('Successfully unregistered from event!')
+    } catch (error) {
+      console.error('Error unregistering from event:', error)
+      alert('Failed to unregister from event. Please try again.')
+    }
+  }
+
   return (
     <div>
       <Header 
@@ -220,6 +257,10 @@ function EventManagement({ onLogout, onNavigate }) {
           totalPages={getTotalPages()}
           onPageChange={handlePageChange}
           onClearFilter={handleClearFilter}
+          onRegisterForEvent={handleRegisterForEvent}
+          onUnregisterFromEvent={handleUnregisterFromEvent}
+          userRegistrations={userRegistrations}
+          currentCustomerId={currentUser?.customerId}
         />
         <EventForm
           form={form}
